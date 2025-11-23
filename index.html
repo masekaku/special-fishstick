@@ -5,36 +5,128 @@
   <title>Website B</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: sans-serif; background:#0f172a; color:#e5e7eb; margin:0; padding:0;
-           display:flex; align-items:center; justify-content:center; min-height:100vh; }
-    .box { background:#020617; padding:20px; border-radius:12px; max-width:420px; width:100%; text-align:center; }
-    button { margin-top:16px; padding:8px 16px; border-radius:999px; border:none; cursor:pointer;
-             background:#f97316; color:#111827; font-weight:600; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #0f172a;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .box {
+      background: #020617;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: #f97316;
+    }
+    p {
+      font-size: 0.95rem;
+      color: #9ca3af;
+      margin: 0.4rem 0;
+    }
+    #ref-info {
+      font-size: 0.9rem;
+      margin-top: 0.8rem;
+      color: #d1d5db;
+    }
+    #video-info {
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+      color: #a5b4fc;
+    }
+    #back-btn {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.4rem;
+      font-size: 0.95rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(90deg, #f97316, #facc15);
+      color: #111827;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(249,115,22,0.4);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.2s;
+      display: none;
+    }
+    #back-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(249,115,22,0.6);
+      opacity: 0.95;
+    }
+    #back-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+    }
+    .note {
+      font-size: 0.8rem;
+      margin-top: 1.2rem;
+      color: #6b7280;
+    }
+    .ad-wrapper {
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
   </style>
 </head>
 <body>
   <div class="box">
     <h1>Halaman B</h1>
-    <p>Ini halaman B, dibuka dari Website A yang memutar video.</p>
+    <p>Ini adalah halaman landing (Website B) yang dibuka dari Website A yang memutar video.</p>
+    <p>Setelah selesai di sini, kamu bisa kembali melanjutkan menonton video di situs asal.</p>
+
+    <!-- Iklan 1 -->
+    <div class="ad-wrapper">
+      <div id="frame" style="width: 300px;margin: auto;z-index: 99998;height: auto">
+        <iframe data-aa='2418261'
+                src='//ad.a-ads.com/2418261/?size=300x250'
+                style='border:0; padding:0; width:300px; height:250px; overflow:hidden;display: block;margin: auto'>
+        </iframe>
+      </div>
+    </div>
 
     <p id="ref-info">Mendeteksi halaman asal...</p>
     <p id="video-info"></p>
 
-    <button id="back-btn" style="display:none;">Kembali ke Halaman Video</button>
+    <button id="back-btn">Kembali ke Halaman Video</button>
+
+    <!-- Iklan 2 -->
+    <div class="ad-wrapper">
+      <div id="frame" style="width: 300px;margin: auto;z-index: 99998;height: auto">
+        <iframe data-aa='2418261'
+                src='//ad.a-ads.com/2418261/?size=300x250'
+                style='border:0; padding:0; width:300px; height:250px; overflow:hidden;display: block;margin: auto'>
+        </iframe>
+      </div>
+    </div>
+
+    <div class="note">
+      Jika tombol tidak muncul atau tidak berfungsi, kamu bisa kembali ke tab sebelumnya secara manual.
+    </div>
   </div>
 
   <script>
     (function () {
-      const refInfoEl  = document.getElementById('ref-info');
+      const refInfoEl   = document.getElementById('ref-info');
       const videoInfoEl = document.getElementById('video-info');
-      const backBtn    = document.getElementById('back-btn');
+      const backBtn     = document.getElementById('back-btn');
 
-      // Default kalau tidak ketemu apa-apa
+      // Default ke homepage Website A jika tidak terdeteksi
       const DEFAULT_MAIN = 'https://cdn-videx-icu.vercel.app';
 
-      // 1. Coba ambil dari query ?from=
+      // 1. Ambil dari query ?from= (dikirim dari Website A)
       const params = new URLSearchParams(window.location.search);
-      let from = params.get('from');   // full URL A, misal: https://cdn-videx-icu.vercel.app/f/xyev.mp4
+      let from = params.get('from');   // contoh: https://cdn-videx-icu.vercel.app/f/xyev.mp4
       let fromLabel = '';
       let videoId = '';
 
@@ -43,16 +135,15 @@
           const u = new URL(from);
           fromLabel = u.href;
 
-          // 2. Ambil ID video dari path: /f/xyev.mp4 -> xyev
+          // Ambil ID video dari path: /f/xyev.mp4 -> xyev
           const lastSeg = u.pathname.split('/').pop(); // "xyev.mp4"
           videoId = lastSeg.replace('.mp4', '');
         } catch (e) {
-          // kalau bukan URL valid, pakai mentah
           fromLabel = from;
         }
       }
 
-      // 3. Kalau ?from= kosong, fallback ke document.referrer
+      // 2. Kalau ?from= kosong, fallback ke document.referrer
       if (!from) {
         const ref = document.referrer;
         if (ref) {
@@ -70,7 +161,7 @@
         }
       }
 
-      // 4. Kalau tetap kosong, pakai default (homepage A)
+      // 3. Kalau tetap kosong, pakai default homepage A
       if (!from) {
         from = DEFAULT_MAIN;
         fromLabel = DEFAULT_MAIN;
@@ -78,21 +169,20 @@
 
       // Tampilkan info asal
       refInfoEl.textContent = 'Kamu datang dari: ' + fromLabel;
-
       if (videoId) {
         videoInfoEl.textContent = 'ID video: ' + videoId;
       }
 
-      // 5. Tampilkan tombol kembali
+      // 4. Tampilkan tombol kembali
       backBtn.style.display = 'inline-block';
 
       backBtn.addEventListener('click', function () {
-        // Kalau B dibuka via window.open dari A
+        // Jika tab ini dibuka oleh window.open dari A
         if (window.opener && !window.opener.closed) {
           try {
             window.opener.focus(); // fokus ke tab A (video tetap di posisi terakhir)
           } catch (e) {
-            // abaikan jika ada error cross-origin
+            // abaikan jika ada error
           }
           window.close();          // coba tutup tab B
         } else {
