@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Website B</title>
+  <title>Pusat Layanan Pemutar Video</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -81,9 +81,21 @@
 </head>
 <body>
   <div class="box">
-    <h1>Halaman B</h1>
-    <p>Ini adalah halaman landing (Website B) yang dibuka dari Website A yang memutar video.</p>
-    <p>Setelah selesai di sini, kamu bisa kembali melanjutkan menonton video di situs asal.</p>
+    <h1>Pusat Layanan Pemutar Video</h1>
+
+    <p>
+      Halaman ini merupakan bagian dari sistem (tools/software) otomatis yang kami gunakan
+      untuk mengelola pemutaran video serta penayangan iklan di platform utama kami.
+      Proses ini berjalan di belakang layar untuk memastikan pengalaman menonton tetap
+      lancar, cepat, dan senyaman mungkin bagi setiap pengunjung yang sah.
+    </p>
+
+    <p>
+      Selain itu, halaman ini juga berfungsi sebagai lapisan proteksi tambahan untuk
+      meminimalkan akses tidak wajar dari bot atau skrip otomatis yang mencoba langsung
+      mengakses pemutar video maupun sumber daya kami. Dengan cara ini, kami dapat menjaga
+      kualitas layanan, stabilitas server, dan keakuratan sistem penayangan iklan.
+    </p>
 
     <!-- Iklan 1 -->
     <div class="ad-wrapper">
@@ -94,6 +106,21 @@
         </iframe>
       </div>
     </div>
+
+    <p>
+      Website utama kami didukung oleh penayangan iklan yang tertata dengan baik.
+      Untuk membantu kami tetap bisa menyediakan layanan gratis dan menjaga server
+      tetap online, mohon nonaktifkan AdBlock atau pemblokir iklan sejenis untuk situs kami.
+      Dukungan kecil ini sangat berarti agar kami bisa terus mengembangkan dan
+      meningkatkan kualitas layanan bagi Anda.
+    </p>
+
+    <p>
+      Setelah selesai di halaman ini, gunakan tombol di bawah untuk kembali
+      ke pemutar video dan melanjutkan tontonan Anda tanpa kehilangan posisi terakhir.
+      Kami berharap perjalanan Anda antara halaman ini dan situs utama terasa mulus
+      dan memberikan pengalaman yang menyenangkan.
+    </p>
 
     <p id="ref-info">Mendeteksi halaman asal...</p>
     <p id="video-info"></p>
@@ -111,7 +138,7 @@
     </div>
 
     <div class="note">
-      Jika tombol tidak muncul atau tidak berfungsi, kamu bisa kembali ke tab sebelumnya secara manual.
+      Jika tombol tidak muncul atau tidak berfungsi, Anda dapat kembali ke tab sebelumnya secara manual.
     </div>
   </div>
 
@@ -167,8 +194,12 @@
         fromLabel = DEFAULT_MAIN;
       }
 
-      // Tampilkan info asal
-      refInfoEl.textContent = 'Kamu datang dari: ' + fromLabel;
+      // Teks info asal yang lebih profesional
+      refInfoEl.innerHTML =
+        'Halaman ini merupakan lanjutan dari sesi pemutaran video di:<br><strong>' +
+        fromLabel +
+        '</strong>';
+
       if (videoId) {
         videoInfoEl.textContent = 'ID video: ' + videoId;
       }
